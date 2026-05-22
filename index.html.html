@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prisha's Travel Paradise — Bhopal's #1 Visa Consultants</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#C9A84C;--gold2:#E8C96A;--navy:#0A0F1E;--ease:cubic-bezier(0.25,0.46,0.45,0.94);}
+html,body{height:100%;overflow:hidden;font-family:'Outfit',sans-serif;background:#000;color:#fff;}
+
+/* LOADER */
+#loader{position:fixed;inset:0;z-index:9999;background:#0A0F1E;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;transition:opacity 1.2s var(--ease);}
+#loader.hide{opacity:0;pointer-events:none;}
+.l-plane{font-size:40px;animation:lp 2s ease-in-out infinite;}
+@keyframes lp{0%,100%{transform:translateY(0) rotate(0);}50%{transform:translateY(-12px) rotate(5deg);}}
+.l-logo{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;color:var(--gold);letter-spacing:5px;}
+.l-bar{width:240px;height:1px;background:rgba(255,255,255,0.1);border-radius:1px;overflow:hidden;}
+.l-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width 0.08s linear;}
+.l-sub{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.35);}
+
+/* NAVBAR */
+#nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:70px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;transition:all 0.6s var(--ease);}
+#nav.solid{background:rgba(10,15,30,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(201,168,76,0.12);}
+.nlogo{display:flex;align-items:center;gap:12px;text-decoration:none;cursor:pointer;}
+.nlogo-circle{width:44px;height:44px;border-radius:50%;background:rgba(10,15,30,0.9);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:900;color:var(--gold);transition:all 0.3s;}
+.nlogo:hover .nlogo-circle{background:var(--gold);color:var(--navy);}
+.nlogo-text b{display:block;font-size:15px;font-weight:700;color:#fff;font-family:'Playfair Display',serif;}
+.nlogo-text span{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);}
+.nlinks{display:flex;align-items:center;gap:28px;list-style:none;}
+.nlinks a{color:rgba(255,255,255,0.75);text-decoration:none;font-size:13px;font-weight:500;transition:color 0.3s;cursor:pointer;}
+.nlinks a:hover{color:var(--gold);}
+.ncta{background:var(--gold)!important;color:var(--navy)!important;padding:10px 22px;border-radius:50px;font-weight:700!important;transition:all 0.3s!important;}
+.ncta:hover{background:var(--gold2)!important;transform:translateY(-2px);}
+
+/* DOTS */
+#dots{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:900;display:flex;flex-direction:column;gap:14px;}
+.dot{width:6px;height:6px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.3);background:transparent;cursor:pointer;transition:all 0.4s var(--ease);}
+.dot.on{background:var(--gold);border-color:var(--gold);transform:scale(1.7);}
+
+/* HINT */
+#hint{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:900;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:1;transition:opacity 0.6s;}
+#hint.gone{opacity:0;pointer-events:none;}
+.hw{width:26px;height:44px;border:1.5px solid rgba(255,255,255,0.28);border-radius:13px;display:flex;justify-content:center;padding-top:6px;}
+.hd{width:3px;height:7px;background:var(--gold);border-radius:2px;animation:wd 1.8s ease-in-out infinite;}
+@keyframes wd{0%{transform:translateY(0);opacity:1;}100%{transform:translateY(16px);opacity:0;}}
+#hint p{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.38);}
+
+/* STAGE */
+#stage{position:fixed;inset:0;}
+.sc{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity 1.1s var(--ease);overflow:hidden;}
+.sc.on{opacity:1;pointer-events:all;}
+.bg{position:absolute;inset:-3%;background-size:cover;background-position:center;transition:transform 12s ease;will-change:transform;filter:brightness(0.95) saturate(1.1);}
+.sc.on .bg{transform:scale(1.06);}
+.bg{transform:scale(1.0);}
+.ov-hero{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.05) 0%,transparent 25%,transparent 45%,rgba(0,0,0,0.7) 100%),linear-gradient(to right,rgba(0,0,0,0.5) 0%,transparent 55%);}
+.ov-dark{position:absolute;inset:0;background:rgba(0,0,0,0.6);}
+.ov-contact{position:absolute;inset:0;background:rgba(0,0,0,0.75);}
+
+/* ENGINE GLOW */
+.eng-glow{position:absolute;bottom:14%;left:57%;transform:translateX(-50%);width:min(200px,22vw);height:min(200px,22vw);border-radius:50%;background:radial-gradient(circle,rgba(255,140,0,0.2) 0%,rgba(255,100,0,0.08) 40%,transparent 70%);animation:gp 1.5s ease-in-out infinite alternate;pointer-events:none;z-index:4;mix-blend-mode:screen;}
+@keyframes gp{0%{transform:translateX(-50%) scale(0.9);opacity:0.5;}100%{transform:translateX(-50%) scale(1.1);opacity:0.9;}}
+
+/* HERO */
+.hero-zone{position:absolute;bottom:9%;left:5%;z-index:10;max-width:700px;}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.45);color:var(--gold);padding:7px 18px;border-radius:30px;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:500;margin-bottom:18px;backdrop-filter:blur(8px);}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(72px,10vw,130px);font-weight:900;line-height:0.92;color:#fff;text-shadow:0 4px 40px rgba(0,0,0,0.4);}
+.hero-h1 em{color:var(--gold);font-style:normal;display:block;}
+.hero-sub{font-size:clamp(15px,1.6vw,20px);color:rgba(255,255,255,0.72);line-height:1.65;margin-top:14px;}
+.g-pill{display:inline-flex;align-items:center;gap:10px;margin-top:18px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:40px;padding:9px 20px;backdrop-filter:blur(8px);}
+.g-stars{color:#FBBC04;font-size:15px;letter-spacing:1px;}
+.g-txt{font-size:13px;color:rgba(255,255,255,0.8);}
+.g-txt a{color:var(--gold);text-decoration:none;font-weight:600;}
+.g-txt a:hover{text-decoration:underline;}
+.hero-btn{display:inline-flex;align-items:center;gap:12px;margin-top:28px;background:var(--gold);color:var(--navy);padding:17px 42px;border-radius:50px;font-size:16px;font-weight:700;letter-spacing:0.3px;border:none;cursor:pointer;transition:all 0.35s var(--ease);box-shadow:0 8px 30px rgba(201,168,76,0.38);}
+.hero-btn:hover{background:var(--gold2);transform:translateY(-4px);box-shadow:0 18px 45px rgba(201,168,76,0.55);}
+.hero-btn svg{width:20px;height:20px;transition:transform 0.3s;}
+.hero-btn:hover svg{transform:translateX(5px);}
+.sline{position:absolute;bottom:8%;right:5%;display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.3);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;}
+.sline-bar{width:50px;height:1px;background:rgba(255,255,255,0.2);position:relative;overflow:hidden;}
+.sline-bar::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:var(--gold);animation:scan 2.5s ease-in-out infinite;}
+@keyframes scan{0%{left:-100%;}100%{left:100%;}}
+
+/* CENTER ZONE */
+.cz{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 5% 40px;text-align:center;overflow-y:auto;}
+.lbl{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.sh{font-family:'Playfair Display',serif;font-size:clamp(36px,4.5vw,64px);font-weight:900;line-height:1.02;color:#fff;}
+.sh em{color:var(--gold);font-style:normal;}
+.ssub{font-size:clamp(15px,1.5vw,19px);color:rgba(255,255,255,0.6);line-height:1.7;margin-top:12px;max-width:580px;}
+
+/* STATS */
+.stats{display:flex;gap:clamp(12px,3vw,48px);flex-wrap:wrap;justify-content:center;margin-top:52px;}
+.stat{text-align:center;padding:32px 44px;background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.18);border-radius:20px;backdrop-filter:blur(10px);min-width:148px;transition:all 0.4s var(--ease);}
+.stat:hover{transform:translateY(-7px);border-color:rgba(201,168,76,0.5);background:rgba(201,168,76,0.06);}
+.snum{font-family:'Playfair Display',serif;font-size:clamp(42px,5.5vw,72px);font-weight:900;color:var(--gold);line-height:1;}
+.slbl{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.45);margin-top:10px;}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:1000px;margin-top:40px;text-align:left;}
+.about-highlight{background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.22);border-left:3px solid var(--gold);border-radius:0 12px 12px 0;padding:20px 24px;margin-bottom:14px;}
+.about-highlight h3{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--gold);margin-bottom:8px;}
+.about-highlight p{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.75;}
+.about-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:18px 20px;margin-bottom:12px;transition:all 0.35s;}
+.about-card:hover{border-color:rgba(201,168,76,0.3);transform:translateX(6px);}
+.about-card h4{font-size:14px;font-weight:600;color:#fff;margin-bottom:5px;}
+.about-card p{font-size:12px;color:rgba(255,255,255,0.52);line-height:1.65;}
+
+/* DESTINATIONS */
+.bpasses{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:900px;margin-top:40px;}
+.bp{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px 18px;transition:all 0.35s var(--ease);}
+.bp:hover{border-color:rgba(201,168,76,0.5);transform:translateY(-4px);background:rgba(201,168,76,0.06);}
+.bf{font-size:24px;line-height:1;}
+.bc{font-size:14px;font-weight:600;color:#fff;}
+.bp-more{background:rgba(201,168,76,0.1);border-color:rgba(201,168,76,0.3);}
+
+/* PACKAGES MAP */
+.map-wrap{width:100%;max-width:900px;margin-top:36px;position:relative;}
+.world-map{width:100%;border-radius:16px;overflow:hidden;background:rgba(10,20,40,0.8);border:1px solid rgba(201,168,76,0.2);padding:20px;}
+.map-svg-wrap{position:relative;width:100%;}
+.map-countries{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:24px;}
+.mc{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(201,168,76,0.08);
+  border:1px solid rgba(201,168,76,0.2);
+  border-radius:30px;padding:8px 16px;
+  font-size:13px;color:#fff;font-weight:500;
+  transition:all 0.35s;cursor:default;
+  animation:mcPulse 3s ease-in-out infinite;
+}
+.mc:hover{background:rgba(201,168,76,0.18);border-color:var(--gold);transform:scale(1.05);}
+.mc span{font-size:20px;}
+@keyframes mcPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0);}50%{box-shadow:0 0 0 4px rgba(201,168,76,0.1);}}
+.mc:nth-child(2n){animation-delay:0.5s;}
+.mc:nth-child(3n){animation-delay:1s;}
+.mc:nth-child(4n){animation-delay:1.5s;}
+.map-tag{display:inline-block;background:var(--gold);color:var(--navy);padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;}
+
+/* SVG WORLD MAP */
+.svg-map{width:100%;height:auto;filter:brightness(1.1);}
+.land{fill:#1a3a5c;stroke:#0a1f35;stroke-width:0.5;transition:fill 0.3s;}
+.land.active{fill:#C9A84C;animation:landPulse 2s ease-in-out infinite;}
+.land:hover{fill:#E8C96A;cursor:pointer;}
+@keyframes landPulse{0%,100%{fill:#C9A84C;filter:drop-shadow(0 0 4px rgba(201,168,76,0.6));}50%{fill:#E8C96A;filter:drop-shadow(0 0 8px rgba(232,201,106,0.8));}}
+.ocean{fill:#0a1525;}
+
+/* SERVICES */
+.biometric-banner{width:100%;max-width:1000px;background:linear-gradient(135deg,rgba(201,168,76,0.14) 0%,rgba(201,168,76,0.04) 100%);border:1px solid rgba(201,168,76,0.38);border-radius:18px;padding:24px 32px;margin-top:6px;display:flex;align-items:center;gap:20px;text-align:left;position:relative;overflow:hidden;}
+.bio-icon{font-size:40px;flex-shrink:0;}
+.bio-text h3{font-family:'Playfair Display',serif;font-size:clamp(16px,1.8vw,22px);font-weight:700;color:var(--gold);margin-bottom:7px;}
+.bio-text p{font-size:13px;color:rgba(255,255,255,0.7);line-height:1.7;}
+.bio-badge{margin-top:8px;display:inline-block;background:var(--gold);color:var(--navy);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.scards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;width:100%;max-width:1100px;margin-top:28px;}
+.scard{background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.12);border-radius:18px;padding:26px 22px;text-align:left;transition:all 0.4s var(--ease);position:relative;overflow:hidden;}
+.scard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transform:scaleX(0);transition:transform 0.4s;}
+.scard:hover{transform:translateY(-7px);border-color:rgba(201,168,76,0.4);background:rgba(201,168,76,0.04);box-shadow:0 20px 50px rgba(0,0,0,0.3);}
+.scard:hover::after{transform:scaleX(1);}
+.sc-icon{font-size:28px;margin-bottom:14px;display:block;}
+.sc-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:#fff;margin-bottom:8px;}
+.sc-desc{font-size:12px;color:rgba(255,255,255,0.52);line-height:1.75;}
+.sc-tag{display:inline-block;margin-top:12px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:var(--gold);padding:3px 12px;border-radius:20px;font-size:10px;letter-spacing:1px;text-transform:uppercase;}
+.sc-tag.hot{background:rgba(255,100,0,0.1);border-color:rgba(255,150,0,0.35);color:#ff9800;}
+
+/* REVIEWS */
+.reviews-wrap{width:100%;max-width:1000px;margin-top:32px;}
+.g-header{display:flex;align-items:center;justify-content:center;gap:24px;margin-bottom:32px;flex-wrap:wrap;}
+.g-score{font-family:'Playfair Display',serif;font-size:80px;font-weight:900;color:var(--gold);line-height:1;}
+.g-info .stars{color:#FBBC04;font-size:26px;letter-spacing:2px;}
+.g-info p{font-size:14px;color:rgba(255,255,255,0.5);margin-top:6px;}
+.g-info a{color:var(--gold);text-decoration:none;font-weight:600;}
+.rcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+.rcard{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:24px;text-align:left;transition:all 0.35s var(--ease);cursor:pointer;}
+.rcard:hover{transform:translateY(-5px);border-color:rgba(201,168,76,0.3);background:rgba(201,168,76,0.03);}
+.rcard-top{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.rcard-av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#9a7020);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:var(--navy);flex-shrink:0;}
+.rcard-name{font-size:14px;font-weight:600;color:#fff;}
+.rcard-date{font-size:11px;color:rgba(255,255,255,0.32);margin-top:2px;}
+.rcard-stars{color:#FBBC04;font-size:14px;letter-spacing:1px;margin-bottom:10px;}
+.rcard-text{font-size:13px;color:rgba(255,255,255,0.62);line-height:1.78;font-style:italic;}
+.rcard-dest{font-size:11px;color:var(--gold);margin-top:8px;letter-spacing:1px;text-transform:uppercase;}
+.view-all{display:inline-flex;align-items:center;gap:8px;margin-top:24px;background:transparent;border:1px solid rgba(201,168,76,0.4);color:var(--gold);padding:11px 26px;border-radius:50px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.3s;text-decoration:none;}
+.view-all:hover{background:rgba(201,168,76,0.1);border-color:var(--gold);transform:translateY(-2px);}
+
+/* CONTACT */
+#s6{overflow-y:auto;}
+.contact-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:90px 5% 50px;position:relative;z-index:10;}
+.bcard{width:100%;max-width:880px;background:rgba(10,15,30,0.88);border:1px solid rgba(201,168,76,0.2);border-radius:24px;overflow:hidden;backdrop-filter:blur(20px);}
+.bcard-top{background:linear-gradient(135deg,var(--gold) 0%,#9a7020 100%);padding:26px 34px;display:flex;justify-content:space-between;align-items:center;}
+.bct-l b{display:block;font-family:'Playfair Display',serif;font-size:19px;font-weight:900;color:var(--navy);}
+.bct-l span{font-size:11px;color:rgba(10,15,30,0.6);letter-spacing:1px;display:block;margin-top:2px;}
+.bct-r{width:48px;height:48px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:900;color:var(--gold);}
+.bcard-body{padding:32px;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.ff label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-bottom:7px;}
+.ff input,.ff textarea{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:11px;padding:13px 15px;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;outline:none;resize:none;transition:border-color 0.3s,background 0.3s;}
+.ff input:focus,.ff textarea:focus{border-color:var(--gold);background:rgba(201,168,76,0.04);}
+.ff input::placeholder,.ff textarea::placeholder{color:rgba(255,255,255,0.22);}
+.cbrow{display:flex;align-items:flex-start;gap:11px;margin:16px 0;}
+.cbrow input{width:16px;height:16px;margin-top:2px;accent-color:var(--gold);cursor:pointer;flex-shrink:0;}
+.cbrow label{font-size:12px;color:rgba(255,255,255,0.42);line-height:1.6;}
+.sbtn{width:100%;padding:17px;background:linear-gradient(135deg,var(--gold),#9a7020);color:var(--navy);font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;letter-spacing:1px;border:none;border-radius:12px;cursor:pointer;transition:all 0.3s;text-transform:uppercase;}
+.sbtn:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(201,168,76,0.45);}
+.cinfo{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:16px;margin-top:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.06);}
+.ci{display:flex;align-items:flex-start;gap:11px;}
+.ci-ic{width:36px;height:36px;flex-shrink:0;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.22);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.ci-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.ci-v{font-size:12px;color:rgba(255,255,255,0.65);line-height:1.65;}
+.ci-v a{color:rgba(255,255,255,0.65);text-decoration:none;}
+.ci-v a:hover{color:var(--gold);}
+.succ{display:none;text-align:center;padding:48px 20px;}
+.succ.show{display:block;}
+.succ h3{font-family:'Playfair Display',serif;font-size:28px;color:var(--gold);margin:16px 0 12px;}
+.succ p{color:rgba(255,255,255,0.55);font-size:14px;line-height:1.8;}
+.sfooter{text-align:center;padding:16px;font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:1px;border-top:1px solid rgba(255,255,255,0.04);}
+
+@media(max-width:768px){
+  .nlinks{display:none;}
+  .hero-h1{font-size:54px;}
+  .sh{font-size:36px;}
+  .frow{grid-template-columns:1fr;}
+  .about-grid{grid-template-columns:1fr;}
+  .biometric-banner{flex-direction:column;text-align:center;padding:20px;}
+  #dots{right:10px;}
+  .stats{gap:10px;}
+  .stat{padding:18px 22px;min-width:120px;}
+  .bcard-top,.bcard-body{padding:18px;}
+}
+</style>
+</head>
+<body>
+<audio id="engAudio" preload="auto"><source src="engine.mp3" type="audio/mpeg"></audio>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="l-plane">✈</div>
+  <div class="l-logo">PRISHA'S</div>
+  <div class="l-bar"><div class="l-fill" id="lf"></div></div>
+  <div class="l-sub" id="lt">Preparing your journey...</div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nlogo" onclick="go(0)">
+    <div class="nlogo-circle">TP</div>
+    <div class="nlogo-text"><b>Prisha's Travel Paradise</b><span>Bhopal's #1 Visa Experts</span></div>
+  </div>
+  <ul class="nlinks">
+    <li><a onclick="go(0)">Home</a></li>
+    <li><a onclick="go(2)">About</a></li>
+    <li><a onclick="go(3)">Destinations</a></li>
+    <li><a onclick="go(4)">Packages</a></li>
+    <li><a onclick="go(5)">Services</a></li>
+    <li><a onclick="go(6)">Reviews</a></li>
+    <li><a class="ncta" onclick="go(7)">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- DOTS -->
+<div id="dots">
+  <div class="dot on" onclick="go(0)"></div>
+  <div class="dot" onclick="go(1)"></div>
+  <div class="dot" onclick="go(2)"></div>
+  <div class="dot" onclick="go(3)"></div>
+  <div class="dot" onclick="go(4)"></div>
+  <div class="dot" onclick="go(5)"></div>
+  <div class="dot" onclick="go(6)"></div>
+  <div class="dot" onclick="go(7)"></div>
+</div>
+
+<!-- HINT -->
+<div id="hint"><div class="hw"><div class="hd"></div></div><p>Scroll to journey</p></div>
+
+<div id="stage">
+
+<!-- S0: HERO -->
+<div class="sc on" id="s0">
+  <div class="bg" style="background-image:url('plane.jpg');background-position:center 62%;"></div>
+  <div class="ov-hero"></div>
+  <div class="eng-glow"></div>
+  <div class="hero-zone">
+    <div class="badge">✈ Bhopal's Premier Visa Experts</div>
+    <h1 class="hero-h1">Your World<em>Awaits.</em></h1>
+    <p class="hero-sub">Prisha's Travel Paradise — Where Every Dream Takes Flight</p>
+    <div class="g-pill">
+      <span class="g-stars">★★★★★</span>
+      <span class="g-txt"><strong>4.9</strong> · <a href="https://www.google.com/search?q=prisha+travel+paradise#mpd=~17183508341620886132/customers/reviews" target="_blank">133 Google Reviews</a></span>
+    </div>
+    <br>
+    <button class="hero-btn" onclick="startJourney()">
+      Begin Your Journey
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+  <div class="sline"><div class="sline-bar"></div>Scroll to explore</div>
+</div>
+
+<!-- S1: PROMISE -->
+<div class="sc" id="s1">
+  <div class="bg" style="background-image:url('engine_closeup.png');"></div>
+  <div class="ov-dark"></div>
+  <div class="cz">
+    <p class="lbl">Our Legacy</p>
+    <h2 class="sh">We've Flown <em>5,000+</em><br>Dreams to Reality</h2>
+    <p class="ssub">Trusted by thousands of families across Bhopal — making the world accessible, one visa at a time.</p>
+    <div class="stats">
+      <div class="stat"><div class="snum" id="c1">0+</div><div class="slbl">Visas Approved</div></div>
+      <div class="stat"><div class="snum" id="c2">0+</div><div class="slbl">Years of Trust</div></div>
+      <div class="stat"><div class="snum" id="c3">0%</div><div class="slbl">Success Rate</div></div>
+      <div class="stat"><div class="snum">🏆</div><div class="slbl">Award Winning</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: ABOUT -->
+<div class="sc" id="s2">
+  <div class="bg" style="background-image:url('NoseFront.png');background-position:center 40%;"></div>
+  <div class="ov-dark"></div>
+  <div class="cz">
+    <p class="lbl">Who We Are</p>
+    <h2 class="sh">Bhopal's Most<br><em>Trusted Visa Experts</em></h2>
+    <div class="about-grid">
+      <div>
+        <div class="about-highlight">
+          <h3>🌍 Our Mission</h3>
+          <p>Welcome to Prisha's Travel Paradise — one of the best visa consultants in Bhopal (M.P.). We support candidates who want to travel abroad with a professional team that works tirelessly for your dreams.</p>
+        </div>
+        <div class="about-highlight">
+          <h3>✈️ Our Expertise</h3>
+          <p>With 15+ years of experience, we handle tourist visas, business visas, and biometric services for UK, Schengen, USA, Canada, Australia and many more countries worldwide.</p>
+        </div>
+        <div class="about-highlight">
+          <h3>🏆 Why Choose Us</h3>
+          <p>We are the market leader in visa consulting in Bhopal. Our professional team provides comprehensive help before, during, and after your visa application. Customer satisfaction is our top priority.</p>
+        </div>
+      </div>
+      <div>
+        <div class="about-card"><h4>📍 Right Here in Bhopal</h4><p>No need to travel to Delhi, Mumbai, or other cities. Get world-class visa services right here at E-3/3 Arera Colony, Bhopal.</p></div>
+        <div class="about-card"><h4>🎯 Expert Team</h4><p>Our visa agents in Bhopal are well-versed in various visa procedures for numerous nations. We make the complex process smooth and easy for everyone.</p></div>
+        <div class="about-card"><h4>🔏 Biometric — UK & Schengen</h4><p>UK Visa Biometric and Schengen ODMV now available right here in Bhopal. Hassle-free, convenient, and fast.</p></div>
+        <div class="about-card"><h4>📞 Always Available</h4><p>Our team is available to guide you through every step. Call us at +91 9981573873 for visa queries or +91 9039422419 for flights and packages.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: DESTINATIONS -->
+<div class="sc" id="s3">
+  <div class="bg" style="background-image:url('Wing.png');background-position:center center;"></div>
+  <div class="ov-dark"></div>
+  <div class="cz">
+    <p class="lbl">Destinations</p>
+    <h2 class="sh">Where Do You<br><em>Want To Go?</em></h2>
+    <p class="ssub">We handle visas to the world's most sought-after destinations</p>
+    <div class="bpasses">
+      <div class="bp"><div class="bf">🇬🇧</div><div class="bc">United Kingdom</div></div>
+      <div class="bp"><div class="bf">🇪🇺</div><div class="bc">Schengen Zone</div></div>
+      <div class="bp"><div class="bf">🇺🇸</div><div class="bc">United States</div></div>
+      <div class="bp"><div class="bf">🇨🇦</div><div class="bc">Canada</div></div>
+      <div class="bp"><div class="bf">🇦🇺</div><div class="bc">Australia</div></div>
+      <div class="bp"><div class="bf">🇮🇪</div><div class="bc">Ireland</div></div>
+      <div class="bp"><div class="bf">🇫🇷</div><div class="bc">France</div></div>
+      <div class="bp"><div class="bf">🇩🇪</div><div class="bc">Germany</div></div>
+      <div class="bp"><div class="bf">🇮🇹</div><div class="bc">Italy</div></div>
+      <div class="bp"><div class="bf">🇪🇸</div><div class="bc">Spain</div></div>
+      <div class="bp"><div class="bf">🇸🇬</div><div class="bc">Singapore</div></div>
+      <div class="bp"><div class="bf">🇯🇵</div><div class="bc">Japan</div></div>
+      <div class="bp"><div class="bf">🇳🇿</div><div class="bc">New Zealand</div></div>
+      <div class="bp"><div class="bf">🇿🇦</div><div class="bc">South Africa</div></div>
+      <div class="bp"><div class="bf">🇲🇽</div><div class="bc">Mexico</div></div>
+      <div class="bp"><div class="bf">🇮🇩</div><div class="bc">Indonesia / Bali</div></div>
+      <div class="bp"><div class="bf">🇲🇾</div><div class="bc">Malaysia</div></div>
+      <div class="bp"><div class="bf">🇹🇭</div><div class="bc">Thailand</div></div>
+      <div class="bp bp-more"><div class="bf">🌍</div><div class="bc">+ Many More</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: PACKAGES -->
+<div class="sc" id="s4">
+  <div class="bg" style="background-image:url('close.png');background-position:center center;"></div>
+  <div class="ov-dark"></div>
+  <div class="cz">
+    <p class="lbl">Holiday Packages</p>
+    <h2 class="sh">Explore The World<br><em>With Us</em></h2>
+    <p class="ssub">All-inclusive packages to top destinations worldwide — flights, hotels, transfers & more</p>
+    <div class="map-wrap">
+      <div class="world-map">
+        <div style="text-align:center;margin-bottom:16px;">
+          <span class="map-tag">✈ All Inclusive Packages</span>
+          <p style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:8px;">Click any destination to enquire</p>
+        </div>
+
+        <!-- SIMPLIFIED WORLD MAP SVG -->
+        <svg class="svg-map" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
+          <rect width="1000" height="500" class="ocean"/>
+          <!-- Europe -->
+          <path class="land active" d="M460,120 L480,110 L510,115 L520,130 L515,145 L500,155 L480,150 L465,140 Z" onclick="enquire('Europe')"/>
+          <!-- UK -->
+          <path class="land active" d="M440,105 L450,100 L455,110 L448,120 L438,118 Z" onclick="enquire('United Kingdom')"/>
+          <!-- Ireland -->
+          <path class="land active" d="M428,108 L435,104 L437,115 L428,118 Z" onclick="enquire('Ireland')"/>
+          <!-- France -->
+          <path class="land active" d="M455,130 L475,125 L478,145 L460,148 L452,140 Z" onclick="enquire('France')"/>
+          <!-- Spain -->
+          <path class="land active" d="M445,148 L470,145 L472,165 L448,165 Z" onclick="enquire('Spain')"/>
+          <!-- Germany -->
+          <path class="land active" d="M475,118 L492,115 L495,132 L476,134 Z" onclick="enquire('Germany')"/>
+          <!-- Italy -->
+          <path class="land active" d="M480,145 L492,140 L498,165 L486,170 L478,158 Z" onclick="enquire('Italy')"/>
+          <!-- North Africa -->
+          <path class="land" d="M440,175 L560,175 L570,220 L430,220 Z"/>
+          <!-- Sub-Saharan Africa -->
+          <path class="land" d="M450,220 L560,220 L555,320 L500,340 L445,320 Z"/>
+          <!-- South Africa -->
+          <path class="land active" d="M460,315 L540,315 L535,340 L500,355 L465,340 Z" onclick="enquire('South Africa')"/>
+          <!-- North America -->
+          <path class="land" d="M120,80 L260,80 L270,180 L240,200 L200,195 L150,185 L110,140 Z"/>
+          <!-- USA -->
+          <path class="land active" d="M130,130 L250,130 L255,180 L200,190 L140,180 Z" onclick="enquire('United States')"/>
+          <!-- Canada -->
+          <path class="land active" d="M120,80 L260,80 L260,130 L130,130 Z" onclick="enquire('Canada')"/>
+          <!-- Mexico -->
+          <path class="land active" d="M140,185 L200,185 L205,220 L170,225 L138,210 Z" onclick="enquire('Mexico')"/>
+          <!-- Central/South America -->
+          <path class="land" d="M160,230 L220,225 L235,350 L190,380 L155,360 L148,300 Z"/>
+          <!-- Russia/Central Asia -->
+          <path class="land" d="M510,60 L750,55 L760,120 L640,130 L520,125 Z"/>
+          <!-- Middle East -->
+          <path class="land" d="M540,155 L600,150 L610,195 L545,200 Z"/>
+          <!-- South Asia -->
+          <path class="land" d="M610,155 L670,150 L680,205 L640,220 L608,210 Z"/>
+          <!-- Southeast Asia -->
+          <path class="land" d="M680,180 L730,175 L735,215 L690,220 Z"/>
+          <!-- Indonesia/Bali -->
+          <path class="land active" d="M690,230 L760,225 L765,250 L695,252 Z" onclick="enquire('Indonesia / Bali')"/>
+          <!-- China -->
+          <path class="land" d="M670,100 L760,95 L770,160 L680,165 Z"/>
+          <!-- Japan -->
+          <path class="land active" d="M780,115 L798,108 L804,135 L786,140 Z" onclick="enquire('Japan')"/>
+          <!-- Singapore -->
+          <path class="land active" d="M718,222 L726,220 L728,228 L720,230 Z" onclick="enquire('Singapore')"/>
+          <!-- Australia -->
+          <path class="land active" d="M740,270 L860,265 L875,360 L800,390 L740,370 L720,320 Z" onclick="enquire('Australia')"/>
+          <!-- New Zealand -->
+          <path class="land active" d="M880,330 L895,320 L900,355 L885,368 L874,355 Z" onclick="enquire('New Zealand')"/>
+          <!-- Malaysia -->
+          <path class="land" d="M695,205 L730,200 L732,218 L698,220 Z"/>
+        </svg>
+
+        <div class="map-countries">
+          <div class="mc" onclick="enquire('United Kingdom')"><span>🇬🇧</span>United Kingdom</div>
+          <div class="mc" onclick="enquire('Schengen / Europe')"><span>🇪🇺</span>Schengen / Europe</div>
+          <div class="mc" onclick="enquire('United States')"><span>🇺🇸</span>United States</div>
+          <div class="mc" onclick="enquire('Canada')"><span>🇨🇦</span>Canada</div>
+          <div class="mc" onclick="enquire('Australia')"><span>🇦🇺</span>Australia</div>
+          <div class="mc" onclick="enquire('France')"><span>🇫🇷</span>France</div>
+          <div class="mc" onclick="enquire('Germany')"><span>🇩🇪</span>Germany</div>
+          <div class="mc" onclick="enquire('Italy')"><span>🇮🇹</span>Italy</div>
+          <div class="mc" onclick="enquire('Spain')"><span>🇪🇸</span>Spain</div>
+          <div class="mc" onclick="enquire('Ireland')"><span>🇮🇪</span>Ireland</div>
+          <div class="mc" onclick="enquire('Japan')"><span>🇯🇵</span>Japan</div>
+          <div class="mc" onclick="enquire('Singapore')"><span>🇸🇬</span>Singapore</div>
+          <div class="mc" onclick="enquire('New Zealand')"><span>🇳🇿</span>New Zealand</div>
+          <div class="mc" onclick="enquire('South Africa')"><span>🇿🇦</span>South Africa</div>
+          <div class="mc" onclick="enquire('Mexico')"><span>🇲🇽</span>Mexico</div>
+          <div class="mc" onclick="enquire('Indonesia / Bali')"><span>🇮🇩</span>Indonesia / Bali</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: SERVICES -->
+<div class="sc" id="s5">
+  <div class="bg" style="background-image:url('Wing.png');background-position:center center;"></div>
+  <div class="ov-dark"></div>
+  <div class="cz">
+    <p class="lbl">Our Services</p>
+    <h2 class="sh">Every Visa.<br><em>Every Dream. Handled.</em></h2>
+    <p class="ssub">Professional services right here in Bhopal — no need to travel anywhere else</p>
+    <div class="biometric-banner">
+      <div class="bio-icon">🎉</div>
+      <div class="bio-text">
+        <h3>Exciting News — Now in Bhopal!</h3>
+        <p>You no longer need to travel to Delhi, Mumbai, or other cities. UK Visa Biometric & Schengen ODMV — now available hassle-free right here in Bhopal!</p>
+        <span class="bio-badge">✨ Available Now</span>
+      </div>
+    </div>
+    <div class="scards">
+      <div class="scard"><span class="sc-icon">🏖️</span><div class="sc-title">Tourist Visa</div><div class="sc-desc">Explore the world's greatest destinations. We handle all documentation so you focus on the adventure.</div><div class="sc-tag">Most Popular</div></div>
+      <div class="scard"><span class="sc-icon">💼</span><div class="sc-title">Business Visa</div><div class="sc-desc">Expand your business globally. Fast-tracked processing for meetings, conferences, and trade visits.</div><div class="sc-tag">Corporate</div></div>
+      <div class="scard"><span class="sc-icon">🔏</span><div class="sc-title">Biometric Services</div><div class="sc-desc">UK Visa Biometric & Schengen ODMV now available right here in Bhopal. No more travelling to other cities!</div><div class="sc-tag hot">Now in Bhopal ✨</div></div>
+      <div class="scard"><span class="sc-icon">✈️</span><div class="sc-title">Flight Bookings</div><div class="sc-desc">Domestic and international flight bookings at best prices. We find you the perfect itinerary for your journey.</div><div class="sc-tag">Call: 9039422419</div></div>
+      <div class="scard"><span class="sc-icon">🚢</span><div class="sc-title">Cruises</div><div class="sc-desc">Luxury cruise packages across the world's most beautiful oceans and destinations. Unforgettable experiences await.</div><div class="sc-tag">Luxury</div></div>
+      <div class="scard"><span class="sc-icon">🎡</span><div class="sc-title">Theme Park Tickets</div><div class="sc-desc">Disneyland, Universal Studios and other world-famous attractions. We arrange tickets and transfers for you.</div><div class="sc-tag">Entertainment</div></div>
+      <div class="scard"><span class="sc-icon">🚗</span><div class="sc-title">Car Transfers</div><div class="sc-desc">Private car transfers anywhere you need — Europe, Japan, New Zealand, South Africa, Bali, Indonesia, Singapore and more destinations worldwide.</div><div class="sc-tag">Worldwide</div></div>
+      <div class="scard"><span class="sc-icon">🏨</span><div class="sc-title">Holiday Packages</div><div class="sc-desc">All-inclusive holiday packages to top destinations. Flights, hotels, sightseeing and transfers — all arranged for you.</div><div class="sc-tag">All Inclusive</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: REVIEWS -->
+<div class="sc" id="s6">
+  <div class="bg" style="background-image:url('cabin.png');background-position:center center;"></div>
+  <div class="ov-dark"></div>
+  <div class="cz">
+    <p class="lbl">Google Reviews</p>
+    <h2 class="sh">Why Thousands<br><em>Choose Prisha's</em></h2>
+    <div class="reviews-wrap">
+      <div class="g-header">
+        <div class="g-score">4.9</div>
+        <div class="g-info">
+          <div class="stars">★★★★★</div>
+          <p>Based on <a href="https://www.google.com/search?q=prisha+travel+paradise#mpd=~17183508341620886132/customers/reviews" target="_blank">133 Google Reviews</a></p>
+          <p style="margin-top:6px;font-size:12px;color:rgba(255,255,255,0.3);">Verified · Bhopal, Madhya Pradesh</p>
+        </div>
+      </div>
+      <div class="rcards">
+        <div class="rcard" onclick="window.open('https://www.google.com/search?q=prisha+travel+paradise#mpd=~17183508341620886132/customers/reviews','_blank')">
+          <div class="rcard-top"><div class="rcard-av">R</div><div><div class="rcard-name">Rahul Sharma</div><div class="rcard-date">2 months ago</div></div></div>
+          <div class="rcard-stars">★★★★★</div>
+          <div class="rcard-text">"Got my UK visa approved in just 10 working days! The team at Prisha's handled everything seamlessly. Best visa consultant in Bhopal!"</div>
+          <div class="rcard-dest">UK Tourist Visa</div>
+        </div>
+        <div class="rcard" onclick="window.open('https://www.google.com/search?q=prisha+travel+paradise#mpd=~17183508341620886132/customers/reviews','_blank')">
+          <div class="rcard-top"><div class="rcard-av">P</div><div><div class="rcard-name">Priya Mehta</div><div class="rcard-date">1 month ago</div></div></div>
+          <div class="rcard-stars">★★★★★</div>
+          <div class="rcard-text">"Finally a visa consultant in Bhopal! No need to go to Delhi. Schengen visa process was incredibly smooth and easy."</div>
+          <div class="rcard-dest">Schengen Visa · Europe</div>
+        </div>
+        <div class="rcard" onclick="window.open('https://www.google.com/search?q=prisha+travel+paradise#mpd=~17183508341620886132/customers/reviews','_blank')">
+          <div class="rcard-top"><div class="rcard-av">A</div><div><div class="rcard-name">Ajay Verma</div><div class="rcard-date">3 months ago</div></div></div>
+          <div class="rcard-stars">★★★★★</div>
+          <div class="rcard-text">"Professional and incredibly helpful. My entire family's Canada visitor visas were handled perfectly. Highly recommend to everyone!"</div>
+          <div class="rcard-dest">Canada Visitor Visa</div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:24px;">
+        <a class="view-all" href="https://www.google.com/search?q=prisha+travel+paradise#mpd=~17183508341620886132/customers/reviews" target="_blank">
+          View All 133 Reviews on Google
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S7: CONTACT -->
+<div class="sc" id="s7">
+  <div class="bg" style="background-image:url('plane.jpg');background-position:center 40%;filter:brightness(0.55) saturate(0.8);"></div>
+  <div class="ov-contact"></div>
+  <div class="contact-wrap">
+    <div style="width:100%;max-width:880px;">
+      <div style="text-align:center;margin-bottom:28px;">
+        <p class="lbl">Get In Touch</p>
+        <h2 class="sh" style="font-size:clamp(38px,5vw,68px);">Your Journey<em> Starts Here</em></h2>
+        <p class="ssub" style="margin:10px auto 0;">Fill in your details — we'll respond within 24 hours</p>
+      </div>
+      <div class="bcard">
+        <div class="bcard-top">
+          <div class="bct-l"><b>Prisha's Travel Paradise</b><span>BHOPAL → YOUR DREAM DESTINATION</span></div>
+          <div class="bct-r">TP</div>
+        </div>
+        <div class="bcard-body">
+          <div id="cform">
+            <p style="font-size:10px;color:rgba(255,255,255,0.28);letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;">Passenger Details</p>
+            <div class="frow">
+              <div class="ff"><label>First Name</label><input type="text" id="fn" placeholder="Your first name"></div>
+              <div class="ff"><label>Last Name</label><input type="text" id="ln" placeholder="Your last name"></div>
+            </div>
+            <div class="frow">
+              <div class="ff"><label>Your Email</label><input type="email" id="em" placeholder="email@example.com"></div>
+              <div class="ff"><label>Subject</label><input type="text" id="su" placeholder="e.g. UK Visa Query"></div>
+            </div>
+            <div class="ff" style="margin-bottom:14px;"><label>Your Message</label><textarea id="msg" rows="4" placeholder="Tell us your travel plans and how we can help..."></textarea></div>
+            <div class="cbrow">
+              <input type="checkbox" id="cb">
+              <label for="cb">By checking this box and submitting your information, you are granting us permission to email you. You may unsubscribe at any time.</label>
+            </div>
+            <button class="sbtn" onclick="submitForm()">✈ Send Message</button>
+          </div>
+          <div class="succ" id="succ">
+            <div style="font-size:60px;">✈️</div>
+            <h3>Message Sent!</h3>
+            <p>Our visa experts will contact you within 24 hours.<br><br>For urgent queries:<br><strong style="color:var(--gold);font-size:19px;">+91 9981573873</strong></p>
+          </div>
+          <div class="cinfo">
+            <div class="ci"><div class="ci-ic">📞</div><div><div class="ci-l">Visa Enquiries</div><div class="ci-v"><a href="tel:+919981573873">+91 9981573873</a></div></div></div>
+            <div class="ci"><div class="ci-ic">✈️</div><div><div class="ci-l">Flights & Packages</div><div class="ci-v"><a href="tel:+919039422419">+91 9039422419</a><br><a href="tel:+917880100926">+91 7880100926</a></div></div></div>
+            <div class="ci"><div class="ci-ic">✉️</div><div><div class="ci-l">Email</div><div class="ci-v"><a href="mailto:visa@prishatravel.in">visa@prishatravel.in</a></div></div></div>
+            <div class="ci"><div class="ci-ic">📍</div><div><div class="ci-l">Office</div><div class="ci-v">E-3/3 Arera Colony, Chhatrapati Shivaji Bhawan, 10 No. Market, Bhopal 462016, MP</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="sfooter">© 2025 Prisha's Travel Paradise · All Rights Reserved · Bhopal, Madhya Pradesh</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// LOADER
+let p=0;
+const lf=document.getElementById('lf'),lt=document.getElementById('lt');
+const msgs=['Preparing your journey...','Loading the runway...','Engines warming up...','Ready for takeoff! ✈'];
+let mi=0;
+const li=setInterval(()=>{
+  p+=Math.random()*14;if(p>=100){p=100;clearInterval(li);}
+  lf.style.width=p+'%';
+  if(p>25&&mi===0){mi=1;lt.textContent=msgs[1];}
+  if(p>55&&mi===1){mi=2;lt.textContent=msgs[2];}
+  if(p>80&&mi===2){mi=3;lt.textContent=msgs[3];}
+  if(p>=100){setTimeout(()=>{
+    document.getElementById('loader').classList.add('hide');
+    gsap.from('.badge',{y:-30,opacity:0,duration:1.1,delay:0.3,ease:'power3.out'});
+    gsap.from('.hero-h1',{y:-50,opacity:0,duration:1.2,delay:0.55,ease:'power3.out'});
+    gsap.from('.hero-sub',{y:-20,opacity:0,duration:1,delay:0.85,ease:'power3.out'});
+    gsap.from('.g-pill',{y:20,opacity:0,duration:1,delay:1.05,ease:'power3.out'});
+    gsap.from('.hero-btn',{y:20,opacity:0,duration:1,delay:1.25,ease:'power3.out'});
+  },400);}
+},90);
+
+// AUDIO
+function startJourney(){
+  const snd=document.getElementById('engAudio');
+  if(snd){
+    snd.volume=0.0;
+    snd.play().then(()=>{
+      let v=0;
+      const fi=setInterval(()=>{v=Math.min(v+0.04,0.3);snd.volume=v;if(v>=0.3)clearInterval(fi);},120);
+      setTimeout(()=>{const fo=setInterval(()=>{snd.volume=Math.max(snd.volume-0.03,0);if(snd.volume<=0){clearInterval(fo);snd.pause();snd.currentTime=0;}},100);},4500);
+    }).catch(()=>{});
+  }
+  go(1);
+}
+
+// SCENES
+let cur=0,busy=false,cntDone=false;
+const TOTAL=8;
+
+function go(n){
+  if(busy||n===cur||n<0||n>=TOTAL)return;
+  busy=true;
+  document.querySelectorAll('.sc')[cur].classList.remove('on');
+  document.querySelectorAll('.dot')[cur].classList.remove('on');
+  cur=n;
+  document.querySelectorAll('.sc')[cur].classList.add('on');
+  document.querySelectorAll('.dot')[cur].classList.add('on');
+  document.getElementById('nav').classList.toggle('solid',cur>0);
+  document.getElementById('hint').classList.toggle('gone',cur>0);
+  if(cur===1&&!cntDone){cntDone=true;setTimeout(runCounters,500);}
+  const anim={
+    1:['.lbl','.sh','.ssub','.stat'],
+    2:['.lbl','.sh','.about-highlight','.about-card'],
+    3:['.lbl','.sh','.ssub','.bp'],
+    4:['.lbl','.sh','.ssub','.map-tag','.mc'],
+    5:['.lbl','.sh','.ssub','.biometric-banner','.scard'],
+    6:['.lbl','.sh','.g-header','.rcard'],
+    7:['.lbl','.sh','.ssub','.bcard'],
+  };
+  
+  setTimeout(()=>{busy=false;},1100);
+}
+
+function runCounters(){
+  cnt('c1',0,5000,2200,'+');cnt('c2',0,15,1600,'+');cnt('c3',0,100,2000,'%');
+}
+function cnt(id,from,to,dur,sfx){
+  const el=document.getElementById(id);if(!el)return;
+  const s=performance.now();
+  (function step(now){
+    const p=Math.min((now-s)/dur,1),e=1-Math.pow(1-p,3),v=Math.round(from+(to-from)*e);
+    el.textContent=(v>=1000?v.toLocaleString():v)+sfx;
+    if(p<1)requestAnimationFrame(step);
+  })(performance.now());
+}
+
+// SCROLL
+let wt,lastW=0;
+window.addEventListener('wheel',e=>{
+  clearTimeout(wt);const now=Date.now();
+  if(now-lastW<800)return;
+  wt=setTimeout(()=>{lastW=Date.now();if(e.deltaY>30)go(cur+1);else if(e.deltaY<-30)go(cur-1);},60);
+},{passive:true});
+
+let ty=0,tx=0;
+window.addEventListener('touchstart',e=>{ty=e.touches[0].clientY;tx=e.touches[0].clientX;},{passive:true});
+window.addEventListener('touchend',e=>{
+  const dy=ty-e.changedTouches[0].clientY,dx=tx-e.changedTouches[0].clientX;
+  if(Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>80){dy>0?go(cur+1):go(cur-1);}
+},{passive:true});
+
+window.addEventListener('keydown',e=>{
+  if(['ArrowDown','PageDown'].includes(e.key))go(cur+1);
+  if(['ArrowUp','PageUp'].includes(e.key))go(cur-1);
+});
+
+// ENQUIRE
+function enquire(dest){
+  go(7);
+  setTimeout(()=>{
+    const su=document.getElementById('su');
+    if(su)su.value=dest+' Package Enquiry';
+  },1200);
+}
+
+// FORM
+function submitForm(){
+  const fn=document.getElementById('fn').value.trim(),em=document.getElementById('em').value.trim(),cb=document.getElementById('cb').checked;
+  if(!fn||!em){alert('Please fill in your name and email.');return;}
+  if(!cb){alert('Please check the consent box to continue.');return;}
+  document.getElementById('cform').style.display='none';
+  document.getElementById('succ').classList.add('show');
+}
+</script>
+</body>
+</html>
